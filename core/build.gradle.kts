@@ -1,8 +1,8 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt") version "1.6.10"
-   // id("dagger.hilt.android.plugin")
+    id (Plugins.ANDROID_LIBRARY)
+    id (Plugins.JETBRAIN_KOTLIN)
+    kotlin(Plugins.KAPT) version Versions.KAPT
+    id(Plugins.HILT)
 }
 
 android {
@@ -13,7 +13,7 @@ android {
         targetSdk = Versions.TARGET_SDK
 
         testInstrumentationRunner = TestDependencies.ANDROID_JUNIT_RUNNER
-        consumerProguardFiles("consumer-rules.pro")
+        //consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -28,6 +28,9 @@ android {
     compileOptions {
         sourceCompatibility = Versions.SOURCE_COMPATIBILITY
         targetCompatibility = Versions.TARGET_COMPATIBILITY
+    }
+    packagingOptions{
+        resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -51,7 +54,6 @@ dependencies {
     implementation(platform(Dependencies.OKHTTP_BOM))
     implementation(Dependencies.OKHTTP)
     implementation(Dependencies.OKHTTP_LOGGING)
-    implementation(project(":common"))
 }
 
 // Allow references to generated code

@@ -6,6 +6,8 @@ import com.example.core.repository.GithubRepositoryImpl
 import com.example.core.repository.database.FavouriteUsersDao
 import com.example.core.repository.database.GithubDatabase
 import com.example.core.repository.network.GithubApiService
+import com.example.core.repository.rx.CoreSchedulers
+import com.example.core.repository.rx.CoreSchedulersImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,7 +51,15 @@ class CoreModule {
             FavouriteUsersDao = GithubDatabase.getInstance(applicationContext).favoriteDao()
 
     @Provides
-    fun provideGithubRepository(favoriteDao: FavouriteUsersDao, service: GithubApiService): GithubRepository{
-        return GithubRepositoryImpl(apiService = service, favoriteDao = favoriteDao)
+    fun provideGithubRepository(favoriteDao: FavouriteUsersDao,
+                                coreSchedulers: CoreSchedulers,
+                                service: GithubApiService): GithubRepository{
+        return GithubRepositoryImpl(apiService = service, favoriteDao = favoriteDao,
+            scheduler = coreSchedulers)
+    }
+
+    @Provides
+    fun provideCoreSchedulers(coreSchedulerImpl : CoreSchedulersImpl): CoreSchedulers{
+        return coreSchedulerImpl
     }
 }

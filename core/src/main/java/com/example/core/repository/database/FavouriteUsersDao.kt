@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.core.repository.models.favorite.FavoriteUser
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface FavouriteUsersDao {
@@ -16,6 +16,6 @@ interface FavouriteUsersDao {
     fun getFavoriteById(id: Int): Single<FavoriteUser>
 
     @Insert
-    fun saveFavourite(favoriteUser: FavoriteUser): Single<Int>
+    fun saveFavourite(favoriteUser: FavoriteUser): Long
 
 }
