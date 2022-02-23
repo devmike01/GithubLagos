@@ -1,9 +1,17 @@
 package com.example.common.schedulers
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-object CommonSchedulers {
-    fun io() = Schedulers.io()
-    fun mainThread() = AndroidSchedulers.mainThread()
+class CommonSchedulersImpl @Inject constructor() : CommonSchedulers{
+    override  fun io() : Scheduler = Schedulers.io()
+    override  fun ui() : Scheduler = AndroidSchedulers.mainThread()
+}
+
+interface CommonSchedulers{
+
+    fun io() : Scheduler
+    fun ui() :Scheduler
 }

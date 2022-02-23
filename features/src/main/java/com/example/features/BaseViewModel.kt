@@ -1,4 +1,4 @@
-package com.example.common.viewmodels
+package com.example.features
 
 import androidx.lifecycle.ViewModel
 import com.example.common.schedulers.CommonSchedulers

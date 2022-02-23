@@ -40,8 +40,8 @@ android {
 
 dependencies {
     implementation(Dependencies.ROOM)
-    api(Dependencies.PAGING)
-    api(Dependencies.COMMON_PAGING)
+    api(Dependencies.ROOM_PAGING)
+    implementation(Dependencies.COMMON_PAGING)
     kapt(Compilers.ROOM)
     kapt(Compilers.HILT)
     implementation(Dependencies.GSON)
@@ -50,10 +50,10 @@ dependencies {
     implementation(Dependencies.GSON_CONVERTER)
     api(Dependencies.HILT)
     api(Dependencies.KTS_CORE)
-    implementation(Dependencies.ADAPTER_RXJAVA)
-    implementation(platform(Dependencies.OKHTTP_BOM))
-    implementation(Dependencies.OKHTTP)
-    implementation(Dependencies.OKHTTP_LOGGING)
+    api(Dependencies.ADAPTER_RXJAVA)
+    api(platform(Dependencies.OKHTTP_BOM))
+    api(Dependencies.OKHTTP)
+    api(Dependencies.OKHTTP_LOGGING)
 }
 
 // Allow references to generated code

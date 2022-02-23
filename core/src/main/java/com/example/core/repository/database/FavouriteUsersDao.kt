@@ -5,7 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.core.repository.models.favorite.FavoriteUser
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.Single
+
 
 @Dao
 interface FavouriteUsersDao {

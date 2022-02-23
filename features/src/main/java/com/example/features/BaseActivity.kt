@@ -1,4 +1,4 @@
-package com.example.common.activities
+package com.example.features
 
 import android.content.res.Configuration
 import android.os.Bundle

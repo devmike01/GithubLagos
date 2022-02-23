@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Github Lagos Devs</string>
+    <string name="score_title">Score: %d</string>
+    <string name="bio_title">Bio</string>
+    <string name="name_title">Name</string>
+    <string name="location_title">Location</string>
+    <string name="company_title">Company</string>
 </resources>

@@ -1,12 +1,32 @@
-package com.example.common.adapters
+package com.example.features.features.adapters
 
-class UserAdapter  : PagedListAdapter<Cheese, CheeseViewHolder>(diffCallback) {
-    override fun onBindViewHolder(holder: CheeseViewHolder, position: Int) {
-        holder.bindTo(getItem(position))
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.core.repository.models.user.Item
+import com.example.features.R
+import javax.inject.Inject
+
+class UserAdapter @Inject constructor() : PagedListAdapter<Item, UserAdapter.UserViewHolder>(diffCallback) {
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        getItem(position)?.run {
+            holder.bindTo(this)
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheeseViewHolder =
-        CheeseViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder{
+
+        return LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item,
+            parent, false).let {
+            UserViewHolder(parent)
+        }
+    }
 
     companion object {
         /**
@@ -19,16 +39,28 @@ class UserAdapter  : PagedListAdapter<Cheese, CheeseViewHolder>(diffCallback) {
          *
          * @see DiffUtil
          */
-        private val diffCallback = object : DiffUtil.ItemCallback<Cheese>() {
-            override fun areItemsTheSame(oldItem: Cheese, newItem: Cheese): Boolean =
-                oldItem.id == newItem.id
+        private val diffCallback = object : DiffUtil.ItemCallback<Item>() {
+            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
+                oldItem.itemId == newItem.itemId
 
             /**
              * Note that in kotlin, == checking on data classes compares all contents, but in Java,
              * typically you'll implement Object#equals, and use it to compare object contents.
              */
-            override fun areContentsTheSame(oldItem: Cheese, newItem: Cheese): Boolean =
+            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean =
                 oldItem == newItem
+        }
+    }
+
+    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        private val userImageView = itemView.findViewById<ImageView>(R.id.avatar_iv)
+        private val scoreTv = itemView.findViewById<TextView>(R.id.score_tv)
+        private val nameTv = itemView.findViewById<TextView>(R.id.name_tv)
+
+        fun bindTo(item: Item){
+            scoreTv.text = itemView.context.getString(R.string.score_title, item.score)
+            nameTv.text = item.login
+            Glide.with(itemView.context).load(item.avatarUrl).into(userImageView)
         }
     }
 }

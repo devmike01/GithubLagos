@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin(Plugins.KAPT) version Versions.KAPT
+    id(Plugins.HILT)
 }
 
 android {
@@ -36,4 +38,11 @@ dependencies {
     implementation(Dependencies.RX_ANDROID3)
     implementation(Dependencies.RX_JAVA3)
     implementation(Dependencies.VIEWMODEL_KTX)
+    implementation(Dependencies.HILT)
+    kapt(Compilers.HILT)
+    kapt(Compilers.GLIDE)
+    implementation(Dependencies.KTS_CORE)
+    implementation(Dependencies.GLIDE)
+    implementation(Dependencies.MATERIAL)
+
 }

@@ -33,7 +33,7 @@ android {
     }
 
     packagingOptions{
-        resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
+       // resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
     }
 }
 
@@ -41,6 +41,8 @@ android {
 dependencies {
     implementation(Dependencies.HILT)
     implementation(project(":features"))
+    implementation(project(LocalDependencies.COMMON))
+    implementation(Dependencies.KTS_CORE)
     kapt(Compilers.HILT)
     implementation ("androidx.appcompat:appcompat:1.4.1")
     implementation ("com.google.android.material:material:1.5.0")
@@ -48,4 +50,8 @@ dependencies {
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
+}
+
+kapt {
+    correctErrorTypes = true
 }

@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.logging.Level
 
@@ -34,11 +34,17 @@ class CoreModule {
             .build();
     }
 
+
+    @Provides
+    fun provideCoreSchedulers(coreSchedulerImpl : CoreSchedulersImpl): CoreSchedulers{
+        return coreSchedulerImpl
+    }
+
     @Provides
     fun provideGithubService(okHttpClient: OkHttpClient): GithubApiService{
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.github.com/")
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -58,8 +64,4 @@ class CoreModule {
             scheduler = coreSchedulers)
     }
 
-    @Provides
-    fun provideCoreSchedulers(coreSchedulerImpl : CoreSchedulersImpl): CoreSchedulers{
-        return coreSchedulerImpl
-    }
 }
