@@ -14,7 +14,6 @@ import javax.inject.Inject
 class FavoriteActivity : BaseActivity(){
 
 
-    @Inject
     lateinit var userAdapter: UserAdapter
 
     private lateinit var progressBar : ProgressBar
@@ -29,7 +28,7 @@ class FavoriteActivity : BaseActivity(){
     }
 
     override fun populateViews() {
-        
+        userAdapter = UserAdapter()
     }
 
 }

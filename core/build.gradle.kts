@@ -42,6 +42,7 @@ dependencies {
     implementation(Dependencies.ROOM)
     api(Dependencies.ROOM_PAGING)
     implementation(Dependencies.COMMON_PAGING)
+    implementation("androidx.paging:paging-rxjava2-ktx:3.1.0")
     kapt(Compilers.ROOM)
     kapt(Compilers.HILT)
     implementation(Dependencies.GSON)

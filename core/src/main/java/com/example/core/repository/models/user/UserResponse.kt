@@ -14,6 +14,6 @@ data class UserResponse (
 
     @SerializedName("items")
     @Expose
-    var items: List<Item>? = null
+    var items: List<Item> = emptyList()
     )
 

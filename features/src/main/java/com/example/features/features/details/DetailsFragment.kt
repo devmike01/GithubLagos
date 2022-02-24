@@ -79,6 +79,7 @@ class DetailsFragment : Fragment() {
                 }
                 Status.Success ->{
                     hideProgress()
+
                 }
                 Status.Loading ->{
                     showProgress()

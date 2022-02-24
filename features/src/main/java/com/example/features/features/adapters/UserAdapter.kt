@@ -1,11 +1,13 @@
 package com.example.features.features.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,7 +15,7 @@ import com.example.core.repository.models.user.Item
 import com.example.features.R
 import javax.inject.Inject
 
-class UserAdapter @Inject constructor() : PagedListAdapter<Item, UserAdapter.UserViewHolder>(diffCallback) {
+class UserAdapter : PagingDataAdapter<Item, UserAdapter.UserViewHolder>(diffCallback) {
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         getItem(position)?.run {
             holder.bindTo(this)
@@ -21,10 +23,10 @@ class UserAdapter @Inject constructor() : PagedListAdapter<Item, UserAdapter.Use
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder{
-
+        Log.d("onCreateViewHolder", "onCreateViewHolder")
         return LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_item,
             parent, false).let {
-            UserViewHolder(parent)
+            UserViewHolder(it)
         }
     }
 
@@ -58,7 +60,7 @@ class UserAdapter @Inject constructor() : PagedListAdapter<Item, UserAdapter.Use
         private val nameTv = itemView.findViewById<TextView>(R.id.name_tv)
 
         fun bindTo(item: Item){
-            scoreTv.text = itemView.context.getString(R.string.score_title, item.score)
+            scoreTv.text = itemView.context.getString(R.string.score_title, item.score.toString())
             nameTv.text = item.login
             Glide.with(itemView.context).load(item.avatarUrl).into(userImageView)
         }

@@ -35,6 +35,7 @@ object Versions{
     //Paging
     const val PAGING = "2.1.2"
     const val ROOM_PAGING ="2.4.0-alpha04"
+    const val PAGING_RUNTIME ="3.1.0"
 
     //Okhttp
     const val OKHTTP_BOM ="4.9.3"
@@ -72,6 +73,7 @@ object Dependencies {
     const val OKHTTP_LOGGING ="com.squareup.okhttp3:logging-interceptor"
     const val FRAGMENT_KTX ="androidx.fragment:fragment-ktx:1.4.1"
     const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
+    const val PAGING_RUNTIME ="androidx.paging:paging-runtime-ktx:${Versions.PAGING_RUNTIME}"
 }
 
 object LocalDependencies {

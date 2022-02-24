@@ -50,4 +50,5 @@ dependencies {
     api(Dependencies.PAGING)
     api(Dependencies.COMMON_PAGING)
     api(Dependencies.PAGING_RXJAVA2)
+    api(Dependencies.PAGING_RUNTIME)
 }

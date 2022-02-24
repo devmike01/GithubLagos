@@ -1,7 +1,7 @@
 package com.example.common.activities
 
-import android.content.res.Configuration
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +22,8 @@ abstract class BaseActivity : AppCompatActivity(){
     @LayoutRes abstract  fun getLayout(): Int
 
     abstract fun populateViews()
+
+    //fun<V: View> bindView(@IdRes id: Int): V =  findViewById<V>(id)
 
     fun addFragment(@IdRes container: Int, fragment: Fragment, isAddBackStack: Boolean = false){
         supportFragmentManager.beginTransaction()
