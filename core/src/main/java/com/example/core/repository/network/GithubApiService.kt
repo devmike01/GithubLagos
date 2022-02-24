@@ -12,7 +12,7 @@ interface GithubApiService {
 
     @GET(ApiEndpoints.SEARCH_USERS)
     fun getUsers(@Query("q") location: String = "lagos",
-                 @Query("page") page: String) : Single<UserResponse>
+                 @Query("page") page: Int) : Single<UserResponse>
 
     @GET("/${ApiEndpoints.USERS}/{username}")
     fun getUserByName(@Path("username") username: String): Single<DetailItemResponse>

@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.common.extensions.hide
+import com.example.common.extensions.noNull
 import com.example.common.extensions.show
 import com.example.common.states.Status
+import com.example.core.repository.models.user.DetailItemResponse
 import com.example.features.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +30,7 @@ class DetailsFragment : Fragment() {
     private lateinit var companyTv: TextView
     private lateinit var bioTv : TextView
     private lateinit var progressBar: ProgressBar
-    private lateinit var faveBtn : ImageButton
+    private lateinit var avatarImg : ImageView
 
 
     companion object{
@@ -59,7 +63,7 @@ class DetailsFragment : Fragment() {
             companyTv = findViewById(R.id.tv_company)
             bioTv = findViewById(R.id.tv_bio)
             progressBar = findViewById(R.id.progress_bar)
-            faveBtn = findViewById(R.id.favorite_btn)
+            avatarImg = findViewById(R.id.iv_avatar)
         }
     }
 
@@ -79,6 +83,7 @@ class DetailsFragment : Fragment() {
                 }
                 Status.Success ->{
                     hideProgress()
+                    populateViews(it.data)
 
                 }
                 Status.Loading ->{
@@ -88,6 +93,16 @@ class DetailsFragment : Fragment() {
         }
     }
 
+    private fun populateViews(details: DetailItemResponse?)
+    {
+        details?.run {
+            nameTv.text = details.name.noNull()
+            locationTv.text = details.location.noNull()
+            companyTv.text = details.company.noNull()
+            bioTv.text = details.bio.noNull()
+            Glide.with(requireActivity()).load(avatarUrl).into(avatarImg)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

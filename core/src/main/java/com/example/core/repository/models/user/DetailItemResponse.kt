@@ -102,7 +102,7 @@ class DetailItemResponse {
 
     @SerializedName("bio")
     @Expose
-    var bio: Any? = null
+    var bio: String = "n/a"
 
     @SerializedName("twitter_username")
     @Expose

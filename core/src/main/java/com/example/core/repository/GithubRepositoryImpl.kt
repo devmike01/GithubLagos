@@ -25,8 +25,10 @@ class GithubRepositoryImpl constructor(private val apiService: GithubApiService,
     override fun executeGetUsers(page: Int): Observable<PagingData<Item>> {
 
         return Pager(
-            config = PagingConfig(pageSize = 1, enablePlaceholders = false, ),
-            pagingSourceFactory = {GithubPagingSource(service = apiService, page= page)}
+            config = PagingConfig(pageSize = 30, enablePlaceholders = false, ),
+            pagingSourceFactory = {
+                GithubPagingSource(service = apiService, page= page)
+            }
         ).observable
     }
 

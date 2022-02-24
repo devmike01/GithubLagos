@@ -23,17 +23,48 @@ class GithubPagingSource(private val service: GithubApiService, val page: Int) :
     }
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Item>> {
+        Log.d("onBindViewHolder" , "${params.key}")
 
-        return service.getUsers(page = page.toString()).map<LoadResult<Int, Item>> { userResponse ->
+        val position = params.key ?: GITHUB_PAGE_INDEX
+
+        return try {
+            loadPage(position)
+        }catch (exception: Exception){
+            Log.d("loadSingle", "loadSingle => $exception")
+            Single.just(LoadResult.Error(exception))
+        }
+
+    }
+
+    fun loadPage(position: Int): Single<LoadResult<Int, Item>> {
+        val users: List<Item> = service.getUsers(page = position).subscribeOn(Schedulers.io()).blockingGet().items ?: emptyList()
+        val nextKey = if (users.isEmpty()) {
+            null
+        } else {
+            position + 1
+        }
+        return  Single.just(LoadResult.Page(
+            data = users,
+            prevKey = if (position == GITHUB_PAGE_INDEX) null else position - 1,
+            nextKey
+        ))
+    }
+}
+
+/*
+
+
+        return service.getUsers(page = params.key ?: page).map { userResponse ->
             val position = params.key ?: GITHUB_PAGE_INDEX
+
+
             try {
                 val users: List<Item> = userResponse.items ?: emptyList()
                 val nextKey = if (users.isEmpty()) {
                     null
                 } else {
-                    position + (params.loadSize / GITHUB_PAGE_INDEX)
+                    position + 1
                 }
-                Log.d("onBindViewHolder" , "$users")
 
                 LoadResult.Page(
                     data = users,
@@ -43,15 +74,11 @@ class GithubPagingSource(private val service: GithubApiService, val page: Int) :
             } catch (exception: IOException) {
                 LoadResult.Error(exception)
             } catch (exception: HttpException) {
+                Log.d("onBindViewHolder_" , "${params.key} __ $exception")
                 LoadResult.Error(exception)
             }
         }.subscribeOn(Schedulers.io())
-    }
 
-
-}
-
-/*
    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Item> {
         val position = params.key ?: GITHUB_PAGE_INDEX
         return try {

@@ -6,19 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.paging.PagedListAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.common.custom_texts.TitleTextView
 import com.example.core.repository.models.user.Item
 import com.example.features.R
+import com.example.features.utils.interfaces.OnClickUserListener
 import javax.inject.Inject
 
-class UserAdapter : PagingDataAdapter<Item, UserAdapter.UserViewHolder>(diffCallback) {
+class UserAdapter @Inject constructor() : PagingDataAdapter<Item, UserAdapter.UserViewHolder>(diffCallback) {
+
+    var onClickUser : OnClickUserListener? = null
+
+    fun addOnClickUserListener(callback: OnClickUserListener){
+        this.onClickUser = callback
+    }
+
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         getItem(position)?.run {
-            holder.bindTo(this)
+            holder.bindTo(this){
+                onClickUser?.onClickUser(it)
+            }
         }
     }
 
@@ -57,12 +67,14 @@ class UserAdapter : PagingDataAdapter<Item, UserAdapter.UserViewHolder>(diffCall
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private val userImageView = itemView.findViewById<ImageView>(R.id.avatar_iv)
         private val scoreTv = itemView.findViewById<TextView>(R.id.score_tv)
-        private val nameTv = itemView.findViewById<TextView>(R.id.name_tv)
+        private val nameTv = itemView.findViewById<TitleTextView>(R.id.name_tv)
 
-        fun bindTo(item: Item){
+        fun bindTo(item: Item, onClickUser: (String) -> Unit){
             scoreTv.text = itemView.context.getString(R.string.score_title, item.score.toString())
-            nameTv.text = item.login
+            nameTv.setTitleText(item.login)
             Glide.with(itemView.context).load(item.avatarUrl).into(userImageView)
+
+            itemView.setOnClickListener { item.login?.run{onClickUser.invoke(this)} }
         }
     }
 }

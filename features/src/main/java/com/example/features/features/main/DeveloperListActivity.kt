@@ -12,6 +12,8 @@ import com.example.common.extensions.show
 import com.example.common.states.Status
 import com.example.features.R
 import com.example.features.features.adapters.UserAdapter
+import com.example.features.features.details.DetailsFragment
+import com.example.features.utils.interfaces.OnClickUserListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DeveloperListActivity : BaseActivity(){
 
+    @Inject
     lateinit var userAdapter: UserAdapter
 
     private var progressBar : ProgressBar? = null
@@ -47,7 +50,12 @@ class DeveloperListActivity : BaseActivity(){
     }
 
     override fun populateViews(){
-        userAdapter = UserAdapter()
+        userAdapter.addOnClickUserListener(object : OnClickUserListener{
+            override fun onClickUser(login: String) {
+                addFragment(R.id.details_fragment, DetailsFragment.newInstance(login), isAddBackStack = true)
+            }
+
+        })
         recyclerView?.adapter = userAdapter
         viewModel.fetchUsers(1)
         lifecycleScope.launchWhenCreated {
