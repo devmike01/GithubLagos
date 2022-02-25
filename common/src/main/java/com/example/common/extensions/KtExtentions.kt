@@ -18,8 +18,42 @@ fun FragmentActivity.hide(progressBar: ProgressBar?){
     progressBar?.visibility = View.GONE
 }
 
-fun View.showMessage(msg: String){
-    Snackbar.make(this, msg, Snackbar.LENGTH_LONG).show()
+fun View.showMessage(msg: String?){
+    msg?.run {
+        Snackbar.make(this@showMessage, this, Snackbar.LENGTH_LONG).show()
+    }
+}
+
+/*
+try {
+            val users: List<Item> = service.getUsers(page = position)
+                .subscribeOn(Schedulers.io()).blockingGet().items ?: emptyList()
+            val nextKey = if (users.isEmpty()) {
+                null
+            } else {
+                position + 1
+            }
+
+            LoadResult.Page(
+                data = users,
+                prevKey = if (position == GITHUB_PAGE_INDEX) null else position - 1,
+                nextKey
+            )
+        }catch (exception: IOException){
+            if(exception is UnknownHostException){
+                LoadResult.Error(Exception("Please check your internet and try again!"))
+            }else{
+                Log.d("onBindViewHolder" , "$exception")
+                LoadResult.Error(exception)
+            }
+        }catch (httpException: HttpException){
+            LoadResult.Error(httpException)
+        })
+ */
+
+@Suppress("unchecked_cast")
+fun <T> Any.toSingle(): Single<T>{
+    return Single.just(this as T)
 }
 
 fun String?.noNull(): String{

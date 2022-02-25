@@ -19,7 +19,7 @@ class DetailsFragmentViewModel @Inject constructor(private val repository: Githu
 
     fun fetchDetails(login: String){
         _detailUser.value = UiStates.loading()
-        launchOnMain(repository.executeGetUserById(login), {
+        launch(repository.executeGetUserById(login), {
             _detailUser.value = UiStates.error(it.message)
         }, {
             _detailUser.value = UiStates.success(it)

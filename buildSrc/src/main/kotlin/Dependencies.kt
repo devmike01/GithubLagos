@@ -48,6 +48,7 @@ object Versions{
 }
 
 object Dependencies {
+    const val PAGING_RXJAVA = "androidx.paging:paging-rxjava2-ktx:${Versions.PAGING_RUNTIME}"
     const val RXJAVA2_ADAPTER ="com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${Versions.RX_JAVA_CONVERTER}"
     const val PAGING_RXJAVA2 ="androidx.paging:paging-runtime:${Versions.PAGING}"
     const val PAGING ="androidx.paging:paging-runtime:${Versions.PAGING}"

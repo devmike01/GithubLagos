@@ -42,6 +42,7 @@
    </LinearLayout>
 
     <ImageButton
+        android:padding="8dp"
         android:background="?android:selectableItemBackground"
         android:src="@drawable/ic_outline_add_reaction_24"
         android:layout_gravity="center_vertical"

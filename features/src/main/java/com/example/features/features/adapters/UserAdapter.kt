@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.paging.PagingDataAdapter
@@ -11,24 +12,34 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.common.custom_texts.TitleTextView
+import com.example.core.repository.models.favorite.FavoriteUser
 import com.example.core.repository.models.user.Item
 import com.example.features.R
 import com.example.features.utils.interfaces.OnClickUserListener
+import com.example.features.utils.interfaces.OnFavoriteClickListener
 import javax.inject.Inject
 
 class UserAdapter @Inject constructor() : PagingDataAdapter<Item, UserAdapter.UserViewHolder>(diffCallback) {
 
-    var onClickUser : OnClickUserListener? = null
+    private var onClickUser : OnClickUserListener? = null
+
+    private var onFavClick : OnFavoriteClickListener? = null
 
     fun addOnClickUserListener(callback: OnClickUserListener){
         this.onClickUser = callback
     }
 
+    fun addOnFavoriteClickListener(callback: OnFavoriteClickListener){
+        this.onFavClick = callback
+    }
+
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         getItem(position)?.run {
-            holder.bindTo(this){
+            holder.bindTo(this, {
                 onClickUser?.onClickUser(it)
-            }
+            }, {
+                onFavClick?.onFavoriteClick(it)
+            })
         }
     }
 
@@ -68,12 +79,17 @@ class UserAdapter @Inject constructor() : PagingDataAdapter<Item, UserAdapter.Us
         private val userImageView = itemView.findViewById<ImageView>(R.id.avatar_iv)
         private val scoreTv = itemView.findViewById<TextView>(R.id.score_tv)
         private val nameTv = itemView.findViewById<TitleTextView>(R.id.name_tv)
+        private val favoriteBtn = itemView.findViewById<ImageButton>(R.id.favorite_btn)
 
-        fun bindTo(item: Item, onClickUser: (String) -> Unit){
+        fun bindTo(item: Item, onClickUser: (String) -> Unit, onClickFavorite: (FavoriteUser) -> Unit){
             scoreTv.text = itemView.context.getString(R.string.score_title, item.score.toString())
             nameTv.setTitleText(item.login)
             Glide.with(itemView.context).load(item.avatarUrl).into(userImageView)
-
+            favoriteBtn.setOnClickListener { onClickFavorite.invoke(FavoriteUser(
+                item.itemId, item.login, item.itemId,  item.avatarUrl, item.score
+            ))
+                Log.d("bindTo", "bindTo ${item.itemId}")
+            }
             itemView.setOnClickListener { item.login?.run{onClickUser.invoke(this)} }
         }
     }

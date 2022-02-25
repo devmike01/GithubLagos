@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.core.repository.models.favorite.FavoriteUser
 
-@Database(version = 1, entities = [FavoriteUser::class], exportSchema = false)
+@Database(version = 9, entities = [FavoriteUser::class], exportSchema = false)
 abstract class GithubDatabase  : RoomDatabase(){
 
     abstract fun favoriteDao(): FavouriteUsersDao
@@ -30,7 +30,7 @@ abstract class GithubDatabase  : RoomDatabase(){
         private fun buildDatabase(context: Context): GithubDatabase {
             return Room.databaseBuilder(context,
                 GithubDatabase::class.java,
-                DATABASE_NAME)
+                DATABASE_NAME).fallbackToDestructiveMigration()
                 .build()
         }
     }

@@ -6,14 +6,16 @@ import androidx.paging.PagingState
 import androidx.paging.rxjava2.RxPagingSource
 import com.example.core.repository.models.user.Item
 import com.example.core.repository.network.GithubApiService
+import com.example.core.repository.rx.exts.toSingle
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
+import java.net.UnknownHostException
 
 const val GITHUB_PAGE_INDEX: Int =1
-class GithubPagingSource(private val service: GithubApiService, val page: Int) : RxPagingSource<Int, Item>() {
+class GithubPagingSource(private val service: GithubApiService) : RxPagingSource<Int, Item>() {
 
     override fun getRefreshKey(state: PagingState<Int, Item>): Int? {
         return state.anchorPosition?.let{anchorPosition ->
@@ -23,31 +25,33 @@ class GithubPagingSource(private val service: GithubApiService, val page: Int) :
     }
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Item>> {
-        Log.d("onBindViewHolder" , "${params.key}")
 
         val position = params.key ?: GITHUB_PAGE_INDEX
 
-        return try {
-            loadPage(position)
-        }catch (exception: Exception){
-            Log.d("loadSingle", "loadSingle => $exception")
-            Single.just(LoadResult.Error(exception))
-        }
+        return loadPage(position)
 
     }
 
-    fun loadPage(position: Int): Single<LoadResult<Int, Item>> {
-        val users: List<Item> = service.getUsers(page = position).subscribeOn(Schedulers.io()).blockingGet().items ?: emptyList()
-        val nextKey = if (users.isEmpty()) {
-            null
-        } else {
-            position + 1
-        }
-        return  Single.just(LoadResult.Page(
-            data = users,
-            prevKey = if (position == GITHUB_PAGE_INDEX) null else position - 1,
-            nextKey
-        ))
+    private fun loadPage(position: Int): Single<LoadResult<Int, Item>> {
+
+
+        return try {
+            val users: List<Item> = service.getUsers(page = position)
+                .subscribeOn(Schedulers.io()).blockingGet().items ?: emptyList()
+            val nextKey = if (users.isEmpty()) {
+                null
+            } else {
+                position + 1
+            }
+
+            LoadResult.Page(
+                data = users,
+                prevKey = if (position == GITHUB_PAGE_INDEX) null else position - 1,
+                nextKey
+            )
+        }catch (exception: Exception){
+            LoadResult.Error<Int, Item>(Exception("Error fetching users. Please check your internet and try again."))
+        }.toSingle()
     }
 }
 
