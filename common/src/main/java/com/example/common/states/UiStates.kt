@@ -1,5 +1,7 @@
 package com.example.common.states
 
+import androidx.annotation.VisibleForTesting
+
 sealed class Status{
 
     object Success : Status()
@@ -23,6 +25,13 @@ class UiStates<T> private constructor(status: Status, data: T?, message: String?
 
         fun <T> loading(): UiStates<T> {
             return UiStates(Status.Loading, null, null)
+        }
+
+        @VisibleForTesting
+        fun <T> assertTheSame(uiState : UiStates<T>, uiState1 : UiStates<T>): Boolean{
+            return (uiState1.status == uiState.status)
+                .and(uiState1.data == uiState.data)
+                .and(uiState1.message == uiState.message)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.features.repository
+package com.example.features.utils
 
 import com.example.core.repository.rx.CoreSchedulers
 import io.reactivex.Scheduler

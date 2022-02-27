@@ -35,7 +35,7 @@ android {
 dependencies {
     implementation(Dependencies.HILT)
     kapt(Compilers.HILT)
-    implementation(Dependencies.RX_JAVA3)
+    implementation(Dependencies.RX_JAVA2)
     kapt(Compilers.GLIDE)
     implementation(Dependencies.GLIDE)
     implementation(Dependencies.LIVEDATA_KTX)
@@ -52,4 +52,5 @@ dependencies {
     api(Dependencies.COMMON_PAGING)
     api(Dependencies.PAGING_RXJAVA2)
     api(Dependencies.PAGING_RUNTIME)
+    testImplementation(Dependencies.RX_ANDROID2)
 }

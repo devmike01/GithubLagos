@@ -17,13 +17,15 @@ import java.lang.IllegalArgumentException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-class GithubRepositoryImpl constructor(private val apiService: GithubApiService,
+open class GithubRepositoryImpl constructor(private val apiService: GithubApiService,
+                                            private val schedulers: CoreSchedulers,
+                                            private val githubPagingSource: GithubPagingSource,
                                                private val favoriteDao: FavouriteUsersDao) :
     GithubRepository {
 
     override fun executeGetUsers(): GithubPagingSource{
 
-        return GithubPagingSource(service = apiService)
+        return githubPagingSource
     }
 
     override fun executeGetFavoritePagingSource(): PagingSource<Int, FavoriteUser> {
@@ -34,15 +36,15 @@ class GithubRepositoryImpl constructor(private val apiService: GithubApiService,
         return apiService.getUserByName(login)
     }
 
-    override fun executeSaveFavoriteUser(user: FavoriteUser): Single<String> {
+    override fun executeFavoriteUser(user: FavoriteUser): Single<String> {
 
         return favoriteDao.saveFavourite(user).map {
-            if(it > 0){
+            if(it >= 0){
                 "Favorite was saved successfully"
             }else{
                 throw IllegalArgumentException("Adding user to favorite has failed")
             }
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(schedulers.io())
     }
 
     override fun executeGetFavoriteUserById(id: Int): Single<FavoriteUser> {

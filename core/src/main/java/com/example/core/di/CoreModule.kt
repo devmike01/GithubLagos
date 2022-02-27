@@ -6,6 +6,7 @@ import com.example.core.repository.GithubRepositoryImpl
 import com.example.core.repository.database.FavouriteUsersDao
 import com.example.core.repository.database.GithubDatabase
 import com.example.core.repository.network.GithubApiService
+import com.example.core.repository.paging.GithubPagingSource
 import com.example.core.repository.rx.CoreSchedulers
 import com.example.core.repository.rx.CoreSchedulersImpl
 import dagger.Module
@@ -34,11 +35,11 @@ class CoreModule {
             .build();
     }
 
+    @Provides
+    fun provideCoreSchedulers(coreSchedulersImpl: CoreSchedulersImpl): CoreSchedulers{
+        return coreSchedulersImpl
+    }
 
-//    @Provides
-//    fun provideCoreSchedulers(coreSchedulerImpl : CoreSchedulersImpl): CoreSchedulers{
-//        return coreSchedulerImpl
-//    }
 
     @Provides
     fun provideGithubService(okHttpClient: OkHttpClient): GithubApiService{
@@ -58,9 +59,11 @@ class CoreModule {
 
     @Provides
     fun provideGithubRepository(favoriteDao: FavouriteUsersDao,
-                                //schedulers: CoreSchedulers,
+                                githubPagingSource: GithubPagingSource,
+                                commonSchedulers: CoreSchedulers,
                                 service: GithubApiService): GithubRepository{
-        return GithubRepositoryImpl(apiService = service, favoriteDao = favoriteDao)
+        return GithubRepositoryImpl(apiService = service, favoriteDao = favoriteDao,
+            githubPagingSource = githubPagingSource, schedulers = commonSchedulers)
     }
 
 }

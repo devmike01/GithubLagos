@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation(Dependencies.RX_ANDROID3)
-    implementation(Dependencies.RX_JAVA3)
+    implementation(Dependencies.RX_ANDROID2)
+    implementation(Dependencies.RX_JAVA2)
     implementation(Dependencies.VIEWMODEL_KTX)
     implementation(Dependencies.HILT)
     kapt(Compilers.HILT)

@@ -78,7 +78,7 @@ class DeveloperListActivity : BaseActivity(){
         })
 
         recyclerView?.adapter = userAdapter
-        viewModel.fetchUsers(1)
+        viewModel.fetchUsers()
 
 
         lifecycleScope.launch {

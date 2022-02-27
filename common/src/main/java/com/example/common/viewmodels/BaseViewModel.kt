@@ -25,16 +25,6 @@ open class BaseViewModel(private val scheduler: CommonSchedulers) : ViewModel() 
 
 
 
-    protected fun <S> launch(observable: Observable<S>, onError: (Throwable) -> Unit, onSuccess : (S) -> Unit){
-        composable.add(observable.subscribeOn(scheduler.io()).observeOn(scheduler.ui())
-            .subscribe(onSuccess, onError))
-    }
-
-    protected fun <S> launchOnMain(single: Single<S>, onError: (Throwable) -> Unit, onSuccess : (S) -> Unit){
-        composable.add(single.observeOn(scheduler.ui())
-            .subscribe(onSuccess, onError))
-    }
-
     override fun onCleared() {
         super.onCleared()
         composable.clear()

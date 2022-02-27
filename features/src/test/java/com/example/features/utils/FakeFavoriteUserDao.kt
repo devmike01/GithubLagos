@@ -1,16 +1,18 @@
-package com.example.features.repository
+package com.example.features.utils
 
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
+import androidx.paging.rxjava2.RxPagingSource
 import com.example.common.extensions.toSingle
 import com.example.core.repository.database.FavouriteUsersDao
 import com.example.core.repository.models.favorite.FavoriteUser
 import io.reactivex.Flowable
 import io.reactivex.Single
 
-class FavoriteUserDaoTest : FavouriteUsersDao {
-
-    private val fakeData = hashMapOf<Int, FavoriteUser>()
+open class FavoriteUserDaoTest : FavouriteUsersDao {
 
     private var isFailTest: Boolean = false
+
 
     companion object {
 
@@ -21,16 +23,14 @@ class FavoriteUserDaoTest : FavouriteUsersDao {
             itemId = id,
             avatarUrl = "http://hello.com/$id.jpg",
             score = 2.0
-        )
-    }
-}
-
-    override fun getFavoriteUsers(): Flowable<List<FavoriteUser>> {
-        return if(isFailTest){
-            Flowable.just(fakeData.values.toList())
-        }else{
-            Flowable.error(Exception("Github service has failed!"))
+         )
         }
+    }
+
+    override fun getFavoriteUsers(): PagingSource<Int, FavoriteUser> {
+
+        return PagingTestSource()
+
     }
 
     override fun getFavoriteById(id: Int): Single<FavoriteUser> {
@@ -46,7 +46,6 @@ class FavoriteUserDaoTest : FavouriteUsersDao {
             Single.error(Exception("Get favorite by id has failed"))
         }else{
             if(favoriteUser.id != null){
-                fakeData[favoriteUser.id!!] = favoriteUser
                 Single.just(1)
             }else{
                 Single.just(0)
@@ -55,19 +54,35 @@ class FavoriteUserDaoTest : FavouriteUsersDao {
     }
 
     override fun deleteUserById(id: Int) {
-        fakeData.remove(id)
-    }
-
-    override fun delete(user: FavoriteUser) {
-        val tempMap = fakeData;
-        tempMap.forEach {
-            if (it.value == user){
-                fakeData.values.remove(user)
-            }
-        }
     }
 
     override fun deleteAllUsers() {
-        fakeData.clear()
     }
 }
+
+open class PagingTestSource : RxPagingSource<Int, FavoriteUser>(){
+
+    override fun getRefreshKey(state: PagingState<Int, FavoriteUser>): Int {
+        return 0
+    }
+
+    override fun loadSingle(params: LoadParams<Int>):
+            Single<LoadResult<Int, FavoriteUser>> {
+        val mockFavoriteUsers  = arrayListOf<FavoriteUser>()
+        for (i in 0..1){
+            mockFavoriteUsers.add(FavoriteUser(i, "gbenga",
+                i, "http", i.toDouble()))
+        }
+        return Single.just(
+            LoadResult.Page(data = mockFavoriteUsers,
+                nextKey = 12, prevKey = 11, itemsAfter = 0, itemsBefore = 3)
+        )
+    }
+}
+
+/*
+Single.just(
+            LoadResult.Page(data = arrayListOf(),
+                nextKey = 12, prevKey = 12, itemsAfter = 0, itemsBefore = 3)
+        )
+ */

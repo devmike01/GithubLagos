@@ -18,7 +18,7 @@ import javax.inject.Inject
 data class Favorite(val msg: String, val position: Int)
 
 @HiltViewModel
-class FavoriteActivityViewModel @Inject constructor(private val schedulers: CommonSchedulers, private val repository: GithubRepository) : BaseViewModel(schedulers) {
+class FavoriteActivityViewModel @Inject constructor(schedulers: CommonSchedulers, private val repository: GithubRepository) : BaseViewModel(schedulers) {
 
     private var _favorites : MutableStateFlow<UiStates<PagingData<FavoriteUser>>> =MutableStateFlow( UiStates.loading())
     val favorites : Flow<UiStates<PagingData<FavoriteUser>>> get() = _favorites

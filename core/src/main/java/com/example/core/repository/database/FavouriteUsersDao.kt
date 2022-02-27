@@ -21,9 +21,6 @@ interface FavouriteUsersDao {
     @Query("DELETE FROM favorite_users WHERE id =:id")
     fun deleteUserById(id: Int)
 
-    @Delete
-    fun delete(user: FavoriteUser)
-
 
     @Query("DELETE FROM favorite_users")
     fun deleteAllUsers()

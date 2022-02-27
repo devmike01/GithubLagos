@@ -18,11 +18,9 @@ interface GithubRepository {
 
     fun executeGetUserById(login: String): Single<DetailItemResponse>
 
-    fun executeSaveFavoriteUser(user: FavoriteUser): Single<String>
+    fun executeFavoriteUser(user: FavoriteUser): Single<String>
 
     fun executeGetFavoriteUserById(id: Int): Single<FavoriteUser>
-
-   // fun executeGetFavorites(): Flowable<List<FavoriteUser>>
 
     fun executeDeleteUserById(id: Int) : Single<Unit>
 

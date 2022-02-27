@@ -13,9 +13,10 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
 import java.net.UnknownHostException
+import javax.inject.Inject
 
 const val GITHUB_PAGE_INDEX: Int =1
-class GithubPagingSource(private val service: GithubApiService) : RxPagingSource<Int, Item>() {
+open class GithubPagingSource @Inject constructor(private val service: GithubApiService) : RxPagingSource<Int, Item>() {
 
     override fun getRefreshKey(state: PagingState<Int, Item>): Int? {
         return state.anchorPosition?.let{anchorPosition ->
