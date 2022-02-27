@@ -127,7 +127,6 @@ class FavoriteActivity : BaseActivity(){
                 Status.Success -> {
                     hideProgress()
                     it.data?.run {
-                        Log.d("Status.Success1", "${this}")
                         favoriteUserAdapter.submit(this@FavoriteActivity, this)
                     }
                 }

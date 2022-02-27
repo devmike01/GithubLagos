@@ -52,7 +52,7 @@ class FavoriteActivityViewModel @Inject constructor(schedulers: CommonSchedulers
         launch(repository.executeDeleteAllFavorites(), {
                  _deleteAllFavorites.value = UiStates.error(it.message)
         }, {
-            _deleteAllFavorites.value = UiStates.success("Items was removed")
+            _deleteAllFavorites.value = UiStates.success("Favorite was cleared!")
         })
     }
 
@@ -60,7 +60,7 @@ class FavoriteActivityViewModel @Inject constructor(schedulers: CommonSchedulers
         launch(repository.executeDeleteUserById(id), {
             _deleteFavorites.value = UiStates.error(it.message)
         }, {
-            _deleteFavorites.value = UiStates.success(Favorite("You have deleted this favorite", position))
+            _deleteFavorites.value = UiStates.success(Favorite("You have removed this user", position))
         })
     }
 }
