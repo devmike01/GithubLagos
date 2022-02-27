@@ -34,7 +34,6 @@ class GithubPagingSource(private val service: GithubApiService) : RxPagingSource
 
     private fun loadPage(position: Int): Single<LoadResult<Int, Item>> {
 
-
         return try {
             val users: List<Item> = service.getUsers(page = position)
                 .subscribeOn(Schedulers.io()).blockingGet().items ?: emptyList()
@@ -50,7 +49,7 @@ class GithubPagingSource(private val service: GithubApiService) : RxPagingSource
                 nextKey
             )
         }catch (exception: Exception){
-            LoadResult.Error<Int, Item>(Exception("Error fetching users. Please check your internet and try again."))
+            LoadResult.Error(Exception("Error fetching users. Please check your internet and try again."))
         }.toSingle()
     }
 }

@@ -45,6 +45,10 @@ object Versions{
 
     //Glide
     const val GLIDE = "4.13.0"
+
+    //Mockito
+    const val MOCKITO_CORE = "4.3.1"
+    const val MOCKITO_KOTLIN ="4.0.0"
 }
 
 object Dependencies {
@@ -93,6 +97,8 @@ object TestDependencies {
     const val EXT_JUNIT ="androidx.test.ext:junit:${Versions.EXT_JUNIT}"
     const val JUNIT ="junit:junit:${Versions.JUNIT}"
     const val ANDROID_JUNIT_RUNNER ="androidx.test.runner.AndroidJUnitRunner"
+    const val MOCKITO_CORE ="org.mockito:mockito-core:${Versions.MOCKITO_CORE}"
+    const val MOCKITO_KOTLIN ="org.mockito.kotlin:mockito-kotlin:${Versions.MOCKITO_KOTLIN}"
 }
 
 /*

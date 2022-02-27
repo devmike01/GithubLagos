@@ -45,6 +45,7 @@ dependencies {
     api(project(LocalDependencies.CORE))
     api(project(LocalDependencies.COMMON))
     testImplementation(TestDependencies.JUNIT)
+    testImplementation(TestDependencies.MOCKITO_KOTLIN)
     androidTestImplementation(TestDependencies.EXT_JUNIT)
     androidTestImplementation(TestDependencies.ESPRESSO_CORE)
     api(Dependencies.PAGING)

@@ -35,10 +35,10 @@ class CoreModule {
     }
 
 
-    @Provides
-    fun provideCoreSchedulers(coreSchedulerImpl : CoreSchedulersImpl): CoreSchedulers{
-        return coreSchedulerImpl
-    }
+//    @Provides
+//    fun provideCoreSchedulers(coreSchedulerImpl : CoreSchedulersImpl): CoreSchedulers{
+//        return coreSchedulerImpl
+//    }
 
     @Provides
     fun provideGithubService(okHttpClient: OkHttpClient): GithubApiService{
@@ -58,10 +58,9 @@ class CoreModule {
 
     @Provides
     fun provideGithubRepository(favoriteDao: FavouriteUsersDao,
-                                coreSchedulers: CoreSchedulers,
+                                //schedulers: CoreSchedulers,
                                 service: GithubApiService): GithubRepository{
-        return GithubRepositoryImpl(apiService = service, favoriteDao = favoriteDao,
-            scheduler = coreSchedulers)
+        return GithubRepositoryImpl(apiService = service, favoriteDao = favoriteDao)
     }
 
 }

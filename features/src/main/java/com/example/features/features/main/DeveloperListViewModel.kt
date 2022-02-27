@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.rxjava2.flowable
 import androidx.paging.rxjava2.observable
 import com.example.common.schedulers.CommonSchedulers
@@ -24,22 +25,23 @@ import javax.inject.Inject
 class DeveloperListViewModel @Inject constructor(private val repository: GithubRepository,
                                                  private val scheduler: CommonSchedulers) : BaseViewModel(scheduler) {
 
-    private val _users = MutableLiveData<UiStates<PagingData<Item>>>()
-    val users : LiveData<UiStates<PagingData<Item>>> get() = _users
+    private val _users = MutableStateFlow<UiStates<PagingData<Item>>>(UiStates.loading())
+    val users : Flow<UiStates<PagingData<Item>>> get() = _users
 
 
     private val _favorite = MutableStateFlow<UiStates<String>>(UiStates.loading())
     val favorite : Flow<UiStates<String>> get() = _favorite
 
     fun fetchUsers(page: Int){
-        _users.value = UiStates.loading()
         val githubSource = repository.executeGetUsers()
 
-        launch(   Pager(
-            config = PagingConfig(pageSize = 30, enablePlaceholders = false,),
-            pagingSourceFactory = {
-                githubSource
-            }
+        launch(
+            Pager(
+                config = PagingConfig(pageSize = 30, enablePlaceholders = false,
+                    prefetchDistance = 5),
+                pagingSourceFactory = {
+                    githubSource
+                }
         ).flowable, {
             Log.d("fetchUsers", "fetchUsers => $it")
             _users.value = UiStates.error(it.message)

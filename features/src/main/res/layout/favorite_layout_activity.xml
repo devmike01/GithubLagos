@@ -17,6 +17,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/recycler_view"
+        android:layout_marginBottom="60dp"
         android:layout_height="match_parent"/>
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_margin="25dp"
+        android:id="@+id/delete_all_btn"
+        android:text="@string/action_delete_all"
+        android:layout_alignParentEnd="true"
+        android:textAllCaps="false"
+        android:drawableStart="@drawable/ic_baseline_auto_delete_24"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

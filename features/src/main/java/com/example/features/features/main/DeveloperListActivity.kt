@@ -24,6 +24,7 @@ import com.example.features.features.details.DetailsFragment
 import com.example.features.features.favorites.FavoriteActivity
 import com.example.features.utils.interfaces.OnClickUserListener
 import com.example.features.utils.interfaces.OnFavoriteClickListener
+import com.example.features.utils.interfaces.collectRecent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -96,7 +97,7 @@ class DeveloperListActivity : BaseActivity(){
         }
 
 
-        viewModel.users.observe(this) {
+        viewModel.users.collectRecent(lifecycleScope) {
             when(it.status){
                 Status.Loading -> {
                     showProgress()

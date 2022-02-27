@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
 
@@ -64,4 +65,29 @@ fun String?.noNull(): String{
         this!!
     }
 }
+
+
+//favoriteViewModel.deleteFavorites.collectLatest {
+//    when(it.status){
+//        Status.Loading -> {}
+//        Status.Success -> {
+//            parentView.showMessage(it.data)
+//        }
+//        Status.Failed -> {
+//            parentView.showMessage(it.message)
+//        }
+//    }
+//}
+//
+//favoriteViewModel.deleteAllFavorites.collectLatest {
+//    when(it.status){
+//        Status.Loading -> {}
+//        Status.Success -> {
+//            parentView.showMessage(it.data)
+//        }
+//        Status.Failed -> {
+//            parentView.showMessage(it.message)
+//        }
+//    }
+//}
 

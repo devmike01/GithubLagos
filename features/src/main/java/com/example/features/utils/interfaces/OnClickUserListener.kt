@@ -9,3 +9,11 @@ interface OnClickUserListener {
 interface OnFavoriteClickListener {
     fun onFavoriteClick(favoriteUser: FavoriteUser)
 }
+
+interface OnDeleteFavoriteUserListener {
+    fun onDeleteFavoriteUser(itemId: Int, position: Int)
+}
+
+//interface OnClickFavoriteUserListener {
+//    fun OnClickFavoriteUser(login: String)
+//}

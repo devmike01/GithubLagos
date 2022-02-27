@@ -13,26 +13,21 @@ import com.example.core.repository.paging.GithubPagingSource
 import com.example.core.repository.rx.CoreSchedulers
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class GithubRepositoryImpl constructor(private val apiService: GithubApiService,
-                                               private val scheduler: CoreSchedulers,
-                                               private val favoriteDao: FavouriteUsersDao) : GithubRepository {
-
+                                               private val favoriteDao: FavouriteUsersDao) :
+    GithubRepository {
 
     override fun executeGetUsers(): GithubPagingSource{
 
         return GithubPagingSource(service = apiService)
+    }
+
+    override fun executeGetFavoritePagingSource(): PagingSource<Int, FavoriteUser> {
+        return favoriteDao.getFavoriteUsers()
     }
 
     override fun executeGetUserById(login: String): Single<DetailItemResponse> {
@@ -54,7 +49,13 @@ class GithubRepositoryImpl constructor(private val apiService: GithubApiService,
         return favoriteDao.getFavoriteById(id)
     }
 
-    override fun executeGetFavorites(): Single<List<FavoriteUser>> {
-        return favoriteDao.getFavoriteUsers()
+    override fun executeDeleteUserById(id: Int) = Single.fromCallable {
+        favoriteDao.deleteUserById(id)
     }
+
+    override fun executeDeleteAllFavorites() = Single.fromCallable {
+        favoriteDao.deleteAllUsers()
+    }
+
+
 }
