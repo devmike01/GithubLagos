@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id(Plugins.ANDROID_LIBRARY)
+    id(Plugins.JETBRAIN_KOTLIN)
     kotlin(Plugins.KAPT) version Versions.KAPT
     id(Plugins.HILT)
 }

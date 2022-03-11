@@ -6,22 +6,23 @@ plugins {
 }
 
 android {
-    compileSdk =31
+    compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
         applicationId ="com.example.githublagosdevs"
-        minSdk = 21
-        targetSdk = 31
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = Versions.MIN_SDK
+        targetSdk = Versions.TARGET_SDK
+        versionCode = Versions.VERSION_CODE
+        versionName = Versions.VERSION_NAME
 
-        testInstrumentationRunner = ("androidx.test.runner.AndroidJUnitRunner")
+        testInstrumentationRunner = (TestDependencies.ANDROID_JUNIT_RUNNER)
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -29,7 +30,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Versions.JVM_TARGET
     }
 
     packagingOptions{

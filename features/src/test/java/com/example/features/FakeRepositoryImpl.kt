@@ -8,7 +8,6 @@ import com.example.core.repository.models.favorite.FavoriteUser
 import com.example.core.repository.models.user.DetailItemResponse
 import com.example.core.repository.network.GithubApiService
 import com.example.core.repository.paging.GithubPagingSource
-import com.example.features.utils.FavoriteUserDaoTest
 import com.example.features.utils.PagingTestSource
 import io.reactivex.Single
 

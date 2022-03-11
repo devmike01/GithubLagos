@@ -11,10 +11,7 @@ import com.example.core.repository.paging.GithubPagingSource
 import com.example.features.FakeGithubApiService
 import com.example.features.FakeRepositoryImpl
 import com.example.features.features.main.DeveloperListViewModel
-import com.example.features.utils.FavoriteUserDaoTest
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
+import com.example.features.utils.FakeFavoriteUserDao
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -48,7 +45,7 @@ class DeveloperListViewModelTest {
 
 
         val apiService = FakeGithubApiService()
-        val favoriteUserDaoTest = FavoriteUserDaoTest();
+        val favoriteUserDaoTest = FakeFavoriteUserDao();
 
         repository = spy(FakeRepositoryImpl(apiService, GithubPagingSource(apiService), favoriteUserDaoTest))
         developerListViewModel = DeveloperListViewModel(repository, TestCommonSchedulers())

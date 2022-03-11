@@ -9,7 +9,7 @@ import com.example.core.repository.models.favorite.FavoriteUser
 import io.reactivex.Flowable
 import io.reactivex.Single
 
-open class FavoriteUserDaoTest : FavouriteUsersDao {
+open class FakeFavoriteUserDao : FavouriteUsersDao {
 
     private var isFailTest: Boolean = false
 

@@ -5,7 +5,7 @@ import com.example.core.repository.models.favorite.FavoriteUser
 import com.example.core.repository.network.GithubApiService
 import com.example.core.repository.paging.GithubPagingSource
 import com.example.features.FakeRepositoryImpl
-import com.example.features.utils.FavoriteUserDaoTest
+import com.example.features.utils.FakeFavoriteUserDao
 import com.example.features.utils.PagingTestSource
 import io.reactivex.Single
 import org.junit.After
@@ -23,8 +23,8 @@ import org.mockito.kotlin.*
 @RunWith(JUnit4::class)
 class AppRepositoryTest {
 
-    @Spy
-    lateinit var db : FavoriteUserDaoTest
+    @Mock
+    lateinit var db : FakeFavoriteUserDao
 
     @Mock
     lateinit var fakeGithubApiService: GithubApiService
@@ -57,9 +57,11 @@ class AppRepositoryTest {
 
     @Test
     fun testSaveFavorite(){
+        val save = FakeRepositoryImpl(fakeGithubApiService, githubPagingSource,  db)
+
         val favoriteUser = FavoriteUser(1, "gbenga",
             1, "http", 1.2)
-        given(repoImpl.executeFavoriteUser(favoriteUser)).willReturn(Single.just("s"))
+        given(save.executeFavoriteUser(favoriteUser)).willReturn(Single.just("s"))
 
         then(db).should().saveFavourite(FavoriteUser(1, "gbenga",
             1, "http", 1.2))
